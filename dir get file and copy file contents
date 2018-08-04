@@ -1,0 +1,28 @@
+Sub ru()
+'Designed by Alan Zuo 20180803 GBS HFE BC
+Dim Wk1 As Workbook, item, lis
+Sheet1.Activate
+If [j3].Value = "" Or [j6].Value = "" Then
+MsgBox "请先选择地址或文件类型", , "Alan"
+Exit Sub
+End If
+
+[j9:l1000].ClearContents
+[a2:g65536].ClearContents
+lis = Dir([j3] & "\" & "*." & [j6])
+Do
+  n = n + 1
+  Cells(n + 8, 10) = n
+  Cells(n + 8, 11) = lis
+  a = Left(Cells(n + 8, 11), 2)
+  Cells(n + 8, 12) = ([j3] & "\" & lis)
+  item = Cells(n + 8, 12)
+  Set Wk1 = GetObject(item)
+  Wk1.Sheets("sheet1").Range("b2:g" & Wk1.Sheets("sheet1").Cells(Rows.Count, 1).End(xlUp).Row).Copy Sheets("Tool").Range("b" & Cells(Rows.Count, 2).End(xlUp).Row + 1)
+  Sheets("Tool").Range("a" & Cells(Rows.Count, 1).End(xlUp).Row + 1 & ":" & "a" & Cells(Rows.Count, 2).End(xlUp).Row) = a
+  Wk1.Close
+  lis = Dir
+Loop Until lis = ""
+[l9:l1000].ClearContents
+MsgBox "        完成", , "A Z"
+End Sub
