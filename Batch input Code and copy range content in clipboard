@@ -1,0 +1,43 @@
+Sub SortData()
+'designed by Alan Zuo GBS HFE BC 20180728
+Dim str$
+For i = 1 To Range("upshawbnumber").Count
+    str = Range("upshawbnumber").Cells(i, 1)
+    s = s + str & " "
+    If i Mod 50 = 0 Then
+     Range("Data").Cells(Int(i / 50), 1) = s
+     s = ""
+    End If
+Next i
+
+MsgBox "完成", , "Alan Zuo"
+End Sub
+
+Sub ClearContents()
+Range("Data").ClearContents
+Range("d12:d200").ClearContents
+'Sheet1.Columns("b:y").Interior.ColorIndex = xlNone
+End Sub
+
+Sub copy()
+Dim d As DataObject
+
+
+Set d = New DataObject
+r = selection
+d.SetText (r)
+d.PutInClipboard
+'ActiveSheet.Paste
+Set d = Nothing
+
+
+k = selection.Address(0, 0)
+For Each rng In Range("e12:e200")
+If k = rng.Address(0, 0) Then
+    Cells(rng.Row, 4) = "*"
+End If
+Next
+
+'Sheet1.Range(k).Interior.ColorIndex = 3 '若单元格格式受保护，会出错
+
+End Sub
